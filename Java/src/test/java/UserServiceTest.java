@@ -33,7 +33,7 @@ public class UserServiceTest {
         String lastName = "Swift";
         Date birthday = Date.from(LocalDate.of(1989, 12, 13).atStartOfDay(ZoneId.systemDefault()).toInstant());
 
-        Optional<User> created = userService.addUser(lastName, firstName, birthday);
+        Optional<User> created = userService.addUser(firstName, lastName, birthday);
         assertTrue(created.isPresent());
         assertTrue(created.get().getId() >= 0);
 
@@ -49,37 +49,37 @@ public class UserServiceTest {
     // down the bug in the UserService.createUser method.
     @Test
     public void userServiceShouldCreateUserWithProperValues() {
-        fail("Please implement this test. Thanks!");
+//        fail("Please implement this test. Thanks!");
 
         // To Do
         // 1) Create a mock of the UserRepository
-        // UserRepository userRepositoryMock = Mockito.mock(UserRepository.class);
+        UserRepository userRepositoryMock = Mockito.mock(UserRepository.class);
 
         // 2) Create a new userService, but "inject" the userRepositoryMock so we can
         // verify what the service sends to the repository `create`
-        // UserService userService = new UserService(userRepositoryMock);
+        UserService userService = new UserService(userRepositoryMock);
 
         // 3) Setup an expectation and action on the user repository mock, so that it
         // will return a response when the `create` method is called
-        // User createdUser = new User("first", "last", new Date());
-        // when(userRepositoryMock.create(any())).thenReturn(Optional.of(createdUser));
+         User createdUser = new User("first", "last", new Date());
+         when(userRepositoryMock.create(any())).thenReturn(Optional.of(createdUser));
 
         // 4) Invoke the service method to add a user
-        // User userToCreate = new User("FIRST", "LAST", new Date());
-        // Optional<User> user = userService.addUser(userToCreate.getLastName(),
-        // userToCreate.getFirstName(),
-        // userToCreate.getBirthday());
+         User userToCreate = new User("FIRST", "LAST", new Date());
+         Optional<User> user = userService.addUser(userToCreate.getFirstName(),
+         userToCreate.getLastName(),
+         userToCreate.getBirthday());
 
         // 5) Verify that the expected response was returned from addUser - which should
         // be whatever the repository.create returns
-        // assertTrue(user.isPresent());
-        // assertEquals(createdUser.getFirstName(), user.get().getFirstName());
-        // assertEquals(createdUser.getLastName(), user.get().getLastName());
-        // assertEquals(createdUser.getBirthday(), user.get().getBirthday());
+         assertTrue(user.isPresent());
+         assertEquals(createdUser.getFirstName(), user.get().getFirstName());
+         assertEquals(createdUser.getLastName(), user.get().getLastName());
+         assertEquals(createdUser.getBirthday(), user.get().getBirthday());
 
         // 6) Verify that the repository.create was invoked with proper values. This is
         // the important part, and not possible without mocks
-        // verify(userRepositoryMock).create(userToCreate);
-        // verifyNoMoreInteractions(userRepositoryMock);
+         verify(userRepositoryMock).create(userToCreate);
+         verifyNoMoreInteractions(userRepositoryMock);
     }
 }

@@ -19,8 +19,8 @@ public class UserService {
 
     // There is a bug in this method, need to write some unit tests to find it and
     // fix it
-    public Optional<User> addUser(String lastName, String firstName, Date birthday) {
-        return userRepository.create(new User(lastName, firstName, birthday));
+    public Optional<User> addUser(String firstName, String lastName, Date birthday) {
+        return userRepository.create(new User(firstName, lastName, birthday));
     }
 
     public Optional<User> getUser(int id) {
